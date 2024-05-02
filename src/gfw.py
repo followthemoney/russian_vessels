@@ -1,5 +1,5 @@
 
-from typing import Dict
+from typing import Dict, List
 import requests
 from dotenv import load_dotenv; load_dotenv()
 import json
@@ -87,8 +87,33 @@ def get_events_by_flag_and_geometry(flag: str,
         return result
 
     elif r.status_code != 200: 
-            print(r.text)               
-            logging.error(f'Something went wrong --> status code: {r.status_code} - reason: {r.reason}\nplease check')
+        print(r.text)               
+        logging.error(f'Something went wrong --> status code: {r.status_code} - reason: {r.reason}\nplease check')
 
     return None
     
+def get_vessel_info(ids: List,
+                    path_out: str)->List:
+    
+    ENDPOINT = 'https://gateway.api.globalfishingwatch.org/v3/vessels?datasets[0]=public-global-vessel-identity:latest&ids[0]='
+    
+    headers = {'Authorization': f"Bearer {GFW_API_KEY}",
+               'Content-Type': 'application/json'}
+    
+    results = []
+    for id in ids:
+        try:
+            r = requests.get(f"{ENDPOINT}{id}&registries-info-data=ALL", headers=headers)
+        except: 
+            continue
+        if r.status_code == 200 or r.status_code == 201:
+            result = r.json()
+            if result.get('total') > 0:
+                with open(path_out, 'a') as file:
+                    file.write(f'{result}\n')
+                results.append(result)
+        elif r.status_code != 200 or r.status_code != 201:
+             print(r.text)               
+        logging.error(f'Something went wrong --> status code: {r.status_code} - reason: {r.reason}\nplease check')
+
+    return results
