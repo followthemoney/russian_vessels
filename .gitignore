@@ -8,6 +8,7 @@ data/
 logs/
 .DS_Store
 .DS_Store/
+viz/
 
 # C extensions
 *.so
