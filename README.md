@@ -22,6 +22,21 @@ This repository contains code used for research into the behaviour of Russian ve
 9. Manually inspect vessel track data for anomalies. 
 10. Validate using other data sources (e.g. Danish AIS data and experts)
 
+## What is anomalous behavior?
+
+That depends on the context, the type of ship and even the time of day. There are many, many vessels behaving in many differnt ways. From the literature (e.g. Wolsing et al, 2022) five types of anomalies for vessel tracks are identified. These are:
+
+1. Route deviation: a vessel suddenly takes another route than usual. In a crowded maritime area like the North Sea many ships usually stay in shipping lanes. If a vessel suddenly deviates, that could be a trigger to look further.
+2. Unexpected activity: for instance if an AIS-signal suddenly disappears in areas where signal coverage is generally good, or if a vessel seems to jump large distances, that could be indicative that something is off.
+3. Port arrival: if a vessel arrives at an unusal port or at unusual times.
+4. Close approach: if two or more vessels get close to each other. That could be indactive of an encounter or ship-to-ship transfers of oil, goods or contraband.
+5. Zone entry: if a vessel sails into an area it is not supposed to.
+
+![(Wolsing et al (2022)](docs/anomalydetection.png)
+
+As mentioned these factors are not set in stone, but dependent on context. A vessel may loiter or drift at a certain location, but it may just be waiting for a anchorage in the harbor. Or a ship makes zigzag moveents, but it could be waiting out a storm (better to move than to lay still) or dump some oil (which is allowed at certain places). Analists we spoke to therefore look at anomalous behavior in conjunction with weather, type of ship, owner, speed, time of day, etc. Therefore we decided to inspect some vessels manually and discuss the findings with experts. It's not implied that these vessels are guilty of any wrongdoing. It's just that they exhibit behavior that merrits further research. 
+
+
 ## Limitations of the data
 
 The data are AIS signals collected from terrestrial and satellite AIS providers and distributed through GFW. AIS coverage can be very patchy. The center of the North Sea has limited coverage. Certainly until around 2019-2020 there were many gaps in the coverage and therefore things went unseen. Later, with the advent of satellite AIS, the coverage became better, but in busy maritime environments AIS signals can cancel each other out, leading to signal loss. It's very hard to distinguish accidental loss from deliberate AIS off switching or manipulation. There were also some problems with data quality of GFW AIS signals, leading to false positives. 
@@ -29,3 +44,5 @@ The data are AIS signals collected from terrestrial and satellite AIS providers 
 We've looked at loitering events, but it's important to note that the process of finding loitering events is an algorithmic one, where choices have been made about parameters and thresholds. More information can be found at Global Fishing Watch. Some events we found manually weren't flagged as loitering by GFW, probably because the vessel speed was above a certain threshold.
 
 And most importantly, loitering or owernship by a suspicious company is not evidence of wrongdoing. It only strenghtens a suspicion, nothing more and nothing less. So be careful when drawing conclusions from this kind of data and make sure to verify your findings with other sources. 
+
+
